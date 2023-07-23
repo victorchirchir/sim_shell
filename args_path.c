@@ -49,25 +49,45 @@ char *args_path(char **parse, char **new)
             return NULL;
         }
 
-        _strcpy(total, new[i]);
+           if (!total)
+        {
+            perror("Memory allocation error");
+            exit(1);
+        }
+
+        _strcat(total, new[i]);
         _strcat(total, "/");
         _strcat(total, parse[0]);
 
-        for (k = 1; parse[k] != NULL; k++)
-        {
-           _strcat(total, " ");
-           _strcat(total, parse[k]);
-        }
-
         if (stat(total, &status) == 0)
         {
-            /*Perform the necessary actions with the executable path*/
-            /*Free the allocated memory for total after executing the command*/
-		return total;
-        }
+            for (k = 0; parse[k] != NULL; k++)
+                ;
 
+            cat = malloc(sizeof(char *) * (k + 1)); // Allocate memory for the new cat array
+            if (!cat)
+            {
+                perror("Memory allocation error");
+                free(total);
+                exit(1);
+            }
+
+            cat[k] = NULL;
+            cat[0] = _strdup(total); // Duplicate the concatenated path
+            j = 1;
+            while (parse[j])
+            {
+                cat[j] = _strdup(parse[j]); // Duplicate the rest of the arguments
+                j++;
+            }
+            execute(cat);
+            free(total);
+            for (j = 0; cat[j]; j++)
+                free(cat[j]);
+            free(cat);
+            return (cat[0]);
+        }
         free(total);
     }
-
-    return NULL; /* Return NULL if no valid executable is found*/
+    return (NULL);
 }
