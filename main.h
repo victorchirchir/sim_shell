@@ -12,9 +12,9 @@
 char *_strdup(char *str);
 char *_strcat(char *destn, char *src);
 char *_strcpy(char *dest, char *src);
+int execute(char **parsed);
 char *read_line(void);
 char **splits(char *line, char *delim);
-int execute(char **parse);
 int _putchar(char ch);
 unsigned int _strlen(char *str);
 void _puts(char *str);
