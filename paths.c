@@ -59,42 +59,49 @@ char *getprompt(void) {
  * Return: Null
  */
 
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+/**
+ * _realloc-function that reallocates memory
+ * @ptr-pointer
+ * @0_size:unsigned int-old size
+ * @n_size:new size
+ * Return:void
+ */
+void *_realloc(void *ptr, unsigned int o_size, unsigned int n_size)
 {
+        unsigned int j;
+        char *char_ptr;
+        char *char_new_ptr;
+        void *new_ptr;
+        if (n_size == 0)
+        {
+                free(ptr);
+                return (NULL);
+        }
+        if (n_size <= o_size)
+        {
+                return (ptr); /*no need to reallocate*/
+        }
+        if (ptr == NULL)
+        {
+                return (malloc(n_size));
+        }
+        new_ptr = malloc(n_size);
+        if (new_ptr == NULL)
+        {
+                return (NULL); /*memory allocation failed*/
+        }
 
-	char *new;
-	unsigned int i;
+        char_ptr = (char *)ptr;
+        char_new_ptr = (char *)new_ptr;
 
-	if (ptr == NULL)
-	{
-		new = malloc(new_size);
-		return (new);
-	}
-
-	if (new_size == 0 && ptr != NULL)
-	{
-		free(ptr);
-		return (NULL);
-	}
-
-	if (new_size == old_size)
-		return (ptr);
-
-	new = malloc(new_size);
-
-	if (new == NULL)
-		return (NULL);
-
-	for (i = 0; i < old_size; i++)
-	{
-		new[i] = ((char *)ptr)[i];
-	}
-
-	free(ptr);
-
-	return (new);
+        /*copy data from old block to new block*/
+        for (j = 0; j < o_size; j++)
+        {
+                char_new_ptr[j] = char_ptr[j];
+        }
+        free(ptr); /*free old memory block*/
+        return (new_ptr);
 }
-
 /**
  * splits - function that create tokens
  * @line: is a char
