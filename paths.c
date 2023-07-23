@@ -26,25 +26,26 @@ char **get_path(char **environ)
     return path_tokens;
 }
 /**
- * read_line - reads the command line
+ * getprompt - gets prompt entered by user
  * Return: line
  */
 
-char *getprompt(void)
-{
-	char *line = NULL;
-	size_t size = 0;
-	int ret = 0;
+char *getprompt(void) {
+    char *line = NULL;
+    ssize_t ret = 0;
 
-	if (getline(&line, &size, stdin) == -1)
-	{
-		free(line);
-		exit(-1);
-	}
-	ret = strlen(line);
-	line[ret - 1] = '\0';
+    ret = getline(&line, NULL, stdin);
+    if (ret == -1) {
+        perror("Error reading input");
+        return NULL;
+    }
 
-	return (line);
+    // Remove the newline character at the end of the input line
+    if (ret > 0 && line[ret - 1] == '\n') {
+        line[ret - 1] = '\0';
+    }
+
+    return line;
 }
 
 /**
