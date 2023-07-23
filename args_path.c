@@ -1,5 +1,25 @@
 #include "main.h"
+/**
+ * _strcpy - copies content from one string to another
+ * @dest:destination string
+ * @src:source string
+ * Return:copied string
+ */
+char *_strcpy(char *dest, char *src)
+{
+	char *result;
 
+	result = dest;
+	while(*src != '\0')
+	{
+		*dest = *src;
+		dest++;
+		src++;
+	}
+	/*add the null terminator*/
+	*dest = '\0';
+	return (result);
+}
 /**
  * args_path - concatenate the arguments with directories
  * @parse: pointer to the command and its arguments
@@ -15,10 +35,10 @@ char *args_path(char **parse, char **new)
 
     for (i = 0; new[i]; i++)
     {
-        total_length = strlen(new[i]) + 1 + strlen(parse[0]) + 1;
+        total_length = _strlen(new[i]) + 1 + _strlen(parse[0]) + 1;
         for (j = 0; parse[j]; j++)
         {
-            total_length += strlen(parse[j]) + 1;
+            total_length += _strlen(parse[j]) + 1;
         }
 
         total = malloc(total_length);
@@ -29,21 +49,21 @@ char *args_path(char **parse, char **new)
             return NULL;
         }
 
-        strcpy(total, new[i]);
-        strcat(total, "/");
-        strcat(total, parse[0]);
+        _strcpy(total, new[i]);
+        _strcat(total, "/");
+        _strcat(total, parse[0]);
 
         for (k = 1; parse[k] != NULL; k++)
         {
-            strcat(total, " ");
-            strcat(total, parse[k]);
+           _strcat(total, " ");
+           _strcat(total, parse[k]);
         }
 
         if (stat(total, &status) == 0)
         {
             /*Perform the necessary actions with the executable path*/
             /*Free the allocated memory for total after executing the command*/
-		return total; // Or return the result here if needed
+		return total;
         }
 
         free(total);

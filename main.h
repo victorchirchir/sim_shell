@@ -11,6 +11,7 @@
 #include <signal.h>
 char *_strdup(char *str);
 char *_strcat(char *destn, char *src);
+char *_strcpy(char *dest, char *src);
 char *read_line(void);
 char **splits(char *line, char *delim);
 int execute(char **parse);
