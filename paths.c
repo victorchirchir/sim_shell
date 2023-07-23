@@ -1,18 +1,29 @@
 #include "main.h"
+#define PATH_DELIMITER ":"
 /**
- * find_path - function that finds the path
+ * get_path - function that finds the path
  * @environ: global variable environment
- * Return: path in tokens
+ * Return: path in tokens or NULL on error
  */
-
 char **get_path(char **environ)
 {
-	char *get_path, **tokens, *delim;
+    char *path_str, **path_tokens;
 
-	delim = ":";
-	get_path = _getenv(environ, "PATH");
-	tokens = splits(get_path, delim);
-	return (tokens);
+    path_str = _getenv(environ, "PATH");
+    if (path_str == NULL)
+    {
+        perror("Error: PATH environment variable not found.");
+        return NULL;
+    }
+
+    path_tokens = splits(path_str, PATH_DELIMITER);
+    if (path_tokens == NULL)
+    {
+        perror("Error: Failed to split the PATH variable.");
+        return NULL;
+    }
+
+    return path_tokens;
 }
 /**
  * read_line - reads the command line
