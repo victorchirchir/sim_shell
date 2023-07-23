@@ -23,6 +23,8 @@ int _putchar(char ch);
 unsigned int _strlen(char *str);
 void _puts(char *str);
 char *args_path(char **parse, char **tokens);
+void exit_func(void);
+int _strcmp(char *str1, char *str2);
 char *if_exists(char **environ);
 extern char **environ;
 #endif

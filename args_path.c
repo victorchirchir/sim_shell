@@ -20,7 +20,6 @@ char *_strcpy(char *dest, char *src)
 	*dest = '\0';
 	return (result);
 }
-
 /**
  * execute - executes the program
  * @parsed: array with pointers
@@ -28,39 +27,39 @@ char *_strcpy(char *dest, char *src)
  */
 int execute(char **parsed)
 {
-        pid_t pid;
-        int status;
+	pid_t pid;
+	int status;
 
-        pid = fork();
-        if (pid == -1)
-        {
-                perror("Fork unsuccessfull");
-        }
-        else if (pid == 0)
-        {
-                if (execve(parsed[0], parsed, NULL) == -1)
-                {
-                        perror(parsed[0]);
-                        exit(1);
-                }
-        }
-        else
-        {
-                while (waitpid(pid, &status, WNOHANG) == 0)
-                {
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("Fork unsuccessfull");
+	}
+	else if (pid == 0)
+	{
+		if (execve(parsed[0], parsed, NULL) == -1)
+		{
+			perror(parsed[0]);
+			exit(1);
+		}
+	}
+	else
+	{
+		while (waitpid(pid, &status, WNOHANG) == 0)
+		{
 
-                }
-                if (WIFEXITED(status))
-                {
-                        return WEXITSTATUS(status);
-                }
-                else
-                {
-                        perror("Error : Child process terminated abnormally");
-                        return (-1);
-                }
-        }
-        return (0);
+		}
+		if (WIFEXITED(status))
+		{
+			return (WEXITSTATUS(status));
+		}
+		else
+		{
+			perror("Error : Child process terminated abnormally");
+			return (-1);
+		}
+	}
+	return (0);
 }
 
 /**
@@ -112,5 +111,3 @@ char *args_path(char **parse, char **new)
 	}
 	return (NULL);
 }
-
-

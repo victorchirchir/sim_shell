@@ -1,16 +1,16 @@
 #include "main.h"
 
 /**
- * main - principal function
- * @argc: is an int
- * @argv: is a char
+ * main - my main function
+ * @argc:int
+ * @argv: array of chars
  * @environ: global variable
  * Return: 0
  */
 
 int main(int argc, char **argv, char **environ)
 {
-	char *line = NULL;
+	char *prompt = NULL;
 	char *delim = "\t \a\n";
 	char *command;
 	char **tokens;
@@ -23,12 +23,17 @@ int main(int argc, char **argv, char **environ)
 	{
 		_puts("$ ");
 		fflush(stdout);
-		line = getprompt();
-		argv = splits(line, delim);
+		prompt = getprompt();
+		if (_strcmp(prompt, "exit") == 0)
+		{
+			exit_func();
+			break;
+		}
+		argv = splits(prompt, delim);
 		command = args_path(argv, tokens);
 		if (command == NULL)
 			execute(argv);
-		free(line);
+		free(prompt);
 		free(argv);
 		free(command);
 	}
