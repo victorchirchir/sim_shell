@@ -6,11 +6,6 @@ char **get_path(char **environ)
         char **tokens = NULL;
 
         path = _getenv(environ, "PATH");
-        if (!path || *path == '\0')
-        {
-                /*handling when path env variable not set/empty*/
-                return (NULL);
-        }
         tokens = splits(path, DELIM);
         return (tokens);
 }

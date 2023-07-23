@@ -16,14 +16,14 @@ int main(int argc, char **argv, char **environ)
 	char **tokens;
 	(void)argc;
 
-	tokens = find_path(environ);
+	tokens = get_path(environ);
 
 	signal(SIGINT, SIG_IGN);
 	while (1)
 	{
 		_puts("$ ");
 		fflush(stdout);
-		line = read_line();
+		line = getprompt();
 		argv = splits(line, delim);
 		command = args_path(argv, tokens);
 		if (command == NULL)
