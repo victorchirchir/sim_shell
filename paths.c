@@ -1,45 +1,39 @@
 #include "main.h"
-#define DELIM ":"
+/**
+ * find_path - function that finds the path
+ * @environ: global variable environment
+ * Return: path in tokens
+ */
+
 char **get_path(char **environ)
 {
-        char *path;
-        char **tokens = NULL;
+	char *get_path, **tokens, *delim;
 
-        path = _getenv(environ, "PATH");
-        tokens = splits(path, DELIM);
-        return (tokens);
+	delim = ":";
+	get_path = _getenv(environ, "PATH");
+	tokens = splits(get_path, delim);
+	return (tokens);
 }
-
-/**getprompt-gets prompt from user
- * Return: char- the prompt obtained
+/**
+ * read_line - reads the command line
+ * Return: line
  */
-char *getprompt(void)
+
+char *get_line(void)
 {
-        char *lne = NULL;
-        size_t len = 0;
-        ssize_t read;
+	char *line = NULL;
+	size_t size = 0;
+	int ret = 0;
 
-        read = getline(&lne, &len, stdin);
+	if (getline(&line, &size, stdin) == -1)
+	{
+		free(line);
+		exit(-1);
+	}
+	ret = strlen(line);
+	line[ret - 1] = '\0';
 
-        if (read == -1)
-        {
-                /*Return NULL on failure*/
-                free(lne);
-                return (NULL);
-        }
-
-        if (read > 0 && lne[read - 1] == '\n')
-        {
-                /*remove the new line character if it exists*/
-                lne[read - 1] = '\0';
-        }
-        else if (read == 0)
-        {
-                /*empty line*/
-                free(lne);
-                return (NULL);
-        }
-        return (lne);
+	return (line);
 }
 
 /**
