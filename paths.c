@@ -19,7 +19,7 @@ char **get_path(char **environ)
  * Return: line
  */
 
-char *get_line(void)
+char *getprompt(void)
 {
 	char *line = NULL;
 	size_t size = 0;
