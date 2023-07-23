@@ -32,15 +32,18 @@ char **get_path(char **environ)
 
 char *getprompt(void) {
     char *line = NULL;
+    size_t size = 0;
     ssize_t ret = 0;
 
-    ret = getline(&line, NULL, stdin);
-    if (ret == -1) {
-        perror("Error reading input");
-        return NULL;
+    ret = getline(&line, &size, stdin);
+    if (ret == -1)
+    {
+	    free(line);
+	    exit(-1);
+	    
     }
 
-    // Remove the newline character at the end of the input line
+    /*Remove the newline character at the end of the input line*/
     if (ret > 0 && line[ret - 1] == '\n') {
         line[ret - 1] = '\0';
     }
