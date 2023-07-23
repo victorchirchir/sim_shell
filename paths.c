@@ -1,5 +1,6 @@
 #include "main.h"
 #define PATH_DELIMITER ":"
+#define INITIAL_BUF_SIZE 1024
 /**
  * get_path - function that finds the path
  * @environ: global variable environment
@@ -102,37 +103,43 @@ void *_realloc(void *ptr, unsigned int o_size, unsigned int n_size)
         free(ptr); /*free old memory block*/
         return (new_ptr);
 }
+
 /**
- * splits - function that create tokens
- * @line: is a char
- * @delim: is a char
- * Return: double pointer
+ * splits - tokenizes a string
+ * @lne:string to be tokenized
+ * @delim:deliminitor
+ * Return:tokenized strings
  */
-
-char **splits(char *line, char *delim)
+char **splits(char *lne, char *delim)
 {
-	char **pptoken;
-	int buf = 1024, i = 0;
+        char **pptoken = NULL;
+        char **new_pptoken;
+        char *token;
+        int buf = INITIAL_BUF_SIZE;
+        int i = 0;
 
-	pptoken = malloc(sizeof(char *) * buf);
-	if (!pptoken)
-		exit(99);
+        pptoken = malloc(sizeof(char *) * buf);
+        if (!pptoken)
+                exit(99);
+        token = strtok(lne, delim);
+        while (token)
+        {
+                pptoken[i++] = token;
 
-	pptoken[i] = strtok(line, delim);
-	i++;
-	while (1)
-	{
-		pptoken[i] = strtok(NULL, delim);
-		if (i >= buf)
-		{
-			buf += buf;
-			pptoken = _realloc(pptoken, buf, buf * (sizeof(char *)));
-			if (!pptoken)
-				exit(98);
-		}
-		if (pptoken[i] == NULL)
-			break;
-		i++;
-	}
-	return (pptoken);
+                if (1 >= buf)
+                {
+                        buf += INITIAL_BUF_SIZE;
+
+                        new_pptoken = _realloc(pptoken, buf, buf * (sizeof(char *)));
+                        if (!new_pptoken)
+                        {
+                                free(pptoken);
+                                exit(98);
+                        }
+                        pptoken = new_pptoken;
+                }
+                token = strtok(NULL, delim);
+        }
+        pptoken[i] = NULL; /*End of token array*/
+        return (pptoken);
 }
