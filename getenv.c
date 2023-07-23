@@ -1,66 +1,41 @@
 #include "main.h"
 
 /**
- * length - function that checks the = character
- * @str: is a char
- * Return: str
+ * _strcmp:compares one string to another
+ * str1:string one
+ * str2:string two
+ * Return: returns 0 if the strings are equal
  */
-
-char *length(char *str)
+int _strncmp(const char *str1, const char *str2, int num)
 {
-	int i;
+        int i;
 
-	for (i = 0; str[i] != '='; i++)
-		;
-	return (str + i + 1);
+        for (i = 0; i < num; i++)
+        {
+                if (str1[i] != str2[i])
+                {
+                        return (str1[i] - str2[i]);
+                }
+                else if (str1[i] == '\0' && str2[i] == '\0')
+                {
+                        return (0);
+                }
+        }
+        return (0);
 }
-
-/**
- * compare - function that compares two strings
- * @varname: is a char
- * @dirname: is a char
- * Return: 1
- */
-
-int compare(char *varname, char *dirname)
+char *_getenv(char **environ, char *prompt)
 {
-	int i;
+        char *val = NULL;
+        int len_prompt, i;
 
-	for (i = 0; dirname[i] != '\0'; i++)
-	{
-		if (dirname[i] != varname[i])
-			return (0);
-	}
-	return (1);
-}
-
-/**
- * _getenv - function that gets the path in the environ
- * @environ: global variable
- * @dirname: is a char
- * Return: final or null
- */
-
-char *_getenv(char **environ, char *dirname)
-{
-	int k, j;
-	char *varname, *final;
-
-	for (j = 0; environ[j]; j++)
-	{
-		varname = malloc(1024);
-
-		for (k = 0; environ[j][k] != '='; k++)
-			varname[k] = environ[j][k];
-
-		if (compare(varname, dirname))
-		{
-			final = length(environ[j]);
-			free(varname);
-			return (final);
-
-		}
-		free(varname);
-	}
-	return (NULL);
+        len_prompt = _strlen(prompt);
+        for (i = 0; environ[i] != NULL; i++)
+        {
+                if (_strncmp(environ[i], prompt, len_prompt) == 0 && environ[i][len_prompt] == '=')
+                {
+                        val = environ[i] + len_prompt + 1;
+                        break;
+                }
+        }
+        return (val);
 }
