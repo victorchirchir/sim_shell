@@ -1,25 +1,4 @@
-#include "holberton.h"
-
-/**
- *_strcat - concatenate 2 strings
- *@dest: is a character
- *@src: is a character
- *Return: dest concatenated strind
- */
-
-char *_strcat(char *dest, char *src)
-{
-	int i, j;
-
-	for (i = 0; dest[i] != '\0'; i++)
-	{ }
-
-	for (j = 0; src[j] != '\0'; j++, i++)
-		dest[i] = src[j];
-
-	dest[i] = '\0';
-	return (dest);
-}
+#include "main.h"
 
 /**
  * args_path - concatenates the arguments
@@ -43,14 +22,17 @@ char *args_path(char **parse, char **new)
 
 		if (stat(total, &status) == 0)
 		{
-			for (k = 0; parse[k] != '\0'; k++)
+			for (k = 0; parse[k] != NULL; k++)
 				;
 			cat = malloc(sizeof(char *) * (k + 1));
 			cat[k] = NULL;
 			cat[0] = _strdup(total);
-
-			for (j = 1; parse[j]; j++)
+			j = 1;
+			while (parse[j])
+			{
 				cat[j] = _strdup(parse[j]);
+				j++;
+			}
 			execute(cat);
 			return (total);
 		}

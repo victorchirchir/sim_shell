@@ -9,16 +9,17 @@
 #include <sys/wait.h>
 #include <limits.h>
 #include <signal.h>
+char *_strdup(char *str);
+char *_strcat(char *destn, char *src);
 char *read_line(void);
 char **splits(char *line, char *delim);
 int execute(char **parse);
+int _putchar(char ch);
+unsigned int _strlen(char *str);
 void _puts(char *str);
-int _putchar(char c);
-unsigned int _strlen(char *s);
 char **find_path(char **environ);
 char *_getenv(char **environ, char *dirname);
 char *args_path(char **parse, char **tokens);
-char *_strdup(char *str);
 char *if_exists(char **environ);
 extern char **environ;
 #endif

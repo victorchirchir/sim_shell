@@ -1,4 +1,4 @@
-#include "holberton.h"
+#include "main.h"
 
 /**
  * main - principal function
@@ -21,6 +21,8 @@ int main(int argc, char **argv, char **environ)
 	signal(SIGINT, SIG_IGN);
 	while (1)
 	{
+		_puts("$ ");
+		fflush(stdout);
 		line = read_line();
 		argv = splits(line, delim);
 		command = args_path(argv, tokens);
