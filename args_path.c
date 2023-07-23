@@ -1,42 +1,53 @@
 #include "main.h"
 
 /**
- * args_path - concatenates the arguments
- * @parse: is a char
- * @new: is a char
- * Return: total or null
+ * args_path - concatenate the arguments with directories
+ * @parse: pointer to the command and its arguments
+ * @new: pointer to the directories array
+ * Return: pointer to the concatenated path or NULL
  */
-
 char *args_path(char **parse, char **new)
 {
-	char *total, **cat;
-	int i, j, k;
-	struct stat status;
+    struct stat status;
+    char *total = NULL;
+    int total_length = 0;
+    int i, j, k;
 
-	for (i = 0; new[i]; i++)
-	{
-		total = malloc(60);
-		_strcat(total, new[i]);
-		_strcat(total, "/");
-		_strcat(total, parse[0]);
+    for (i = 0; new[i]; i++)
+    {
+        total_length = strlen(new[i]) + 1 + strlen(parse[0]) + 1;
+        for (j = 0; parse[j]; j++)
+        {
+            total_length += strlen(parse[j]) + 1;
+        }
 
-		if (stat(total, &status) == 0)
-		{
-			for (k = 0; parse[k] != NULL; k++)
-				;
-			cat = malloc(sizeof(char *) * (k + 1));
-			cat[k] = NULL;
-			cat[0] = _strdup(total);
-			j = 1;
-			while (parse[j])
-			{
-				cat[j] = _strdup(parse[j]);
-				j++;
-			}
-			execute(cat);
-			return (total);
-		}
-		free(total);
-	}
-	return (NULL);
+        total = malloc(total_length);
+
+        if (total == NULL)
+        {
+            perror("malloc");
+            return NULL;
+        }
+
+        strcpy(total, new[i]);
+        strcat(total, "/");
+        strcat(total, parse[0]);
+
+        for (k = 1; parse[k] != NULL; k++)
+        {
+            strcat(total, " ");
+            strcat(total, parse[k]);
+        }
+
+        if (stat(total, &status) == 0)
+        {
+            /*Perform the necessary actions with the executable path*/
+            /*Free the allocated memory for total after executing the command*/
+		return total; // Or return the result here if needed
+        }
+
+        free(total);
+    }
+
+    return NULL; /* Return NULL if no valid executable is found*/
 }
