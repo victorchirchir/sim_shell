@@ -1,41 +1,50 @@
 #include "main.h"
-
-/**
- * find_path - function that finds the path
- * @environ: global variable environment
- * Return: path in tokens
- */
-
-char **find_path(char **environ)
+#define DELIM ":"
+char **get_path(char **environ)
 {
-	char *get_path, **tokens, *delim;
+        char *path;
+        char **tokens = NULL;
 
-	delim = ":";
-	get_path = _getenv(environ, "PATH");
-	tokens = splits(get_path, delim);
-	return (tokens);
+        path = _getenv(environ, "PATH");
+        if (!path || *path == '\0')
+        {
+                /*handling when path env variable not set/empty*/
+                return (NULL);
+        }
+        tokens = splits(path, DELIM);
+        return (tokens);
 }
 
-/**
- * read_line - reads the command line
- * Return: line
+/**getprompt-gets prompt from user
+ * Return: char- the prompt obtained
  */
-
-char *read_line(void)
+char *getprompt(void)
 {
-	char *line = NULL;
-	size_t size = 0;
-	int ret = 0;
+        char *lne = NULL;
+        size_t len = 0;
+        ssize_t read;
 
-	if (getline(&line, &size, stdin) == -1)
-	{
-		free(line);
-		exit(-1);
-	}
-	ret = strlen(line);
-	line[ret - 1] = '\0';
+        read = getline(&lne, &len, stdin);
 
-	return (line);
+        if (read == -1)
+        {
+                /*Return NULL on failure*/
+                free(lne);
+                return (NULL);
+        }
+
+        if (read > 0 && lne[read - 1] == '\n')
+        {
+                /*remove the new line character if it exists*/
+                lne[read - 1] = '\0';
+        }
+        else if (read == 0)
+        {
+                /*empty line*/
+                free(lne);
+                return (NULL);
+        }
+        return (lne);
 }
 
 /**
