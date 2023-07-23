@@ -66,7 +66,7 @@ char *_strdup(char *str)
 	{
 		return (NULL);
 	}
-	for (i = 0; str[i] != '\0';i++)
+	for (i = 0; str[i] != '\0'; i++)
 	{
 		new_str[i] = str[i];
 	}
@@ -77,7 +77,7 @@ char *_strdup(char *str)
 /**
  * _strcat - concatinates two strings
  * @src:pointer to the source string
- * @destn:pointer to the destination 
+ * @destn:pointer to the destination
  * Return:pointer to the concatinated string
  */
 
@@ -90,7 +90,7 @@ char *_strcat(char *destn, char *src)
 	{
 		dest_end++;
 	}
-	while(*src)
+	while (*src)
 	{
 		*dest_end = *src;
 		dest_end++;
