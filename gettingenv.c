@@ -24,6 +24,10 @@ int _strncmp(const char *str1, const char *str2, int num)
 	}
 	return (0);
 }
+/**
+ * exit_func-implemetns exit function
+ * Return:void
+ */
 void exit_func(void)
 {
 	exit(EXIT_SUCCESS);/*terminate program with successful exit statues*/

@@ -29,6 +29,10 @@ int main(int argc, char **argv, char **environ)
 			exit_func();
 			break;
 		}
+		if (_strcmp(prompt, "env") == 0)
+		{
+			print_env();
+		}
 		argv = splits(prompt, delim);
 		command = args_path(argv, tokens);
 		if (command == NULL)

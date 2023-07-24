@@ -25,6 +25,7 @@ void _puts(char *str);
 char *args_path(char **parse, char **tokens);
 void exit_func(void);
 int _strcmp(char *str1, char *str2);
+void print_env(void);
 char *if_exists(char **environ);
 extern char **environ;
 #endif
